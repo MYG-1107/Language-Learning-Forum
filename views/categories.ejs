@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+
+<div class="page-header">
+  <h1>Browse Language Categories</h1>
+  <p>Choose a language to explore discussions, resources, and learning materials from the community.</p>
+</div>
+
+<ul class="category-list">
+  <% categories.forEach(function(cat) { %>
+    <li class="category-card" style="border-top-color: <%= cat.color %>;">
+      <div class="category-card-header">
+        <span class="cat-flag-large"><%= cat.flag %></span>
+        <div>
+          <h2 class="category-name">
+            <a href="/categories/<%= cat.id %>"><%= cat.name %></a>
+          </h2>
+          <span class="thread-count"><%= cat.threadCount %> discussions</span>
+        </div>
+      </div>
+      <p class="category-description"><%= cat.description %></p>
+      <div class="category-actions">
+        <a href="/categories/<%= cat.id %>" class="btn btn-sm">View Discussions</a>
+        <a href="/resources?category=<%= cat.id %>" class="btn btn-sm btn-outline">Resources</a>
+      </div>
+    </li>
+  <% }); %>
+</ul>
+
+<%- include('partials/footer') %>

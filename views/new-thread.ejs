@@ -1,0 +1,76 @@
+<%- include('partials/header') %>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="/">Home</a> / Start a Discussion</div>
+  <h1>Start a New Discussion</h1>
+  <p>Ask a question, share an insight, or start a conversation about language learning.</p>
+</div>
+
+<% if (errors.length > 0) { %>
+  <div class="error-list" role="alert">
+    <ul>
+      <% errors.forEach(function(err) { %>
+        <li><%= err.msg %></li>
+      <% }); %>
+    </ul>
+  </div>
+<% } %>
+
+<form action="/threads/new" method="POST" class="post-form post-form--wide">
+  <div class="form-group">
+    <label for="categoryId">Language Category</label>
+    <select id="categoryId" name="categoryId" required>
+      <option value="">— Select a category —</option>
+      <% categories.forEach(function(cat) { %>
+        <option value="<%= cat.id %>" <%= (values && values.categoryId === cat.id) ? 'selected' : '' %>>
+          <%= cat.flag %> <%= cat.name %>
+        </option>
+      <% }); %>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="title">Discussion Title</label>
+    <input
+      type="text"
+      id="title"
+      name="title"
+      placeholder="e.g. Best resources for learning Norwegian grammar"
+      value="<%= (values && values.title) ? values.title : '' %>"
+      minlength="5"
+      maxlength="200"
+      required
+    />
+  </div>
+  <div class="form-group">
+    <label for="body">Your Post</label>
+    <textarea
+      id="body"
+      name="body"
+      rows="10"
+      placeholder="Describe your question or topic in detail. Be specific — the more context you give, the better answers you will receive."
+      minlength="20"
+      maxlength="5000"
+      required
+    ><%= (values && values.body) ? values.body : '' %></textarea>
+  </div>
+  <div class="form-group">
+    <label for="author">Your Display Name</label>
+    <input
+      type="text"
+      id="author"
+      name="author"
+      placeholder="e.g. LinguistLearner"
+      value="<%= (values && values.author) ? values.author : '' %>"
+      minlength="2"
+      maxlength="50"
+      required
+    />
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Post Discussion</button>
+    <a href="/threads" class="btn btn-outline">Cancel</a>
+  </div>
+  <p class="form-note">Please follow the <a href="/guidelines">Community Guidelines</a> when posting.</p>
+</form>
+
+<%- include('partials/footer') %>

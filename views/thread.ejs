@@ -1,0 +1,85 @@
+<%- include('partials/header') %>
+
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="/categories">Categories</a>
+    <% if (category) { %>
+      / <a href="/categories/<%= category.id %>"><%= category.flag %> <%= category.name %></a>
+    <% } %>
+    / Discussion
+  </div>
+  <h1 class="thread-page-title"><%= thread.title %></h1>
+  <div class="thread-page-meta">
+    <% if (category) { %>
+      <a href="/categories/<%= category.id %>" class="tag" style="background-color: <%= category.color %>22; color: <%= category.color %>; border-color: <%= category.color %>44;">
+        <%= category.flag %> <%= category.name %>
+      </a>
+    <% } %>
+    <span>Posted by <strong><%= thread.author %></strong> on <%= thread.date %></span>
+  </div>
+</div>
+
+<!-- Original Post -->
+<article class="post post--original">
+  <div class="post-body"><%= thread.body %></div>
+</article>
+
+<!-- Replies -->
+<% if (thread.replies.length > 0) { %>
+  <section class="replies-section">
+    <h2 class="section-heading"><%= thread.replies.length %> <%= thread.replies.length === 1 ? 'Reply' : 'Replies' %></h2>
+    <% thread.replies.forEach(function(reply) { %>
+      <article class="post post--reply" id="reply-<%= reply.id %>">
+        <div class="post-author"><strong><%= reply.author %></strong> &middot; <span class="post-date"><%= reply.date %></span></div>
+        <div class="post-body"><%= reply.body %></div>
+      </article>
+    <% }); %>
+  </section>
+<% } %>
+
+<!-- Reply Form -->
+<section class="reply-form-section">
+  <h2 class="section-heading">Leave a Reply</h2>
+
+  <% if (errors.length > 0) { %>
+    <div class="error-list" role="alert">
+      <ul>
+        <% errors.forEach(function(err) { %>
+          <li><%= err.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="/threads/<%= thread.id %>/reply" method="POST" class="post-form">
+    <div class="form-group">
+      <label for="author">Your display name</label>
+      <input
+        type="text"
+        id="author"
+        name="author"
+        placeholder="e.g. LinguistLearner"
+        value="<%= (values && values.author) ? values.author : '' %>"
+        maxlength="50"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="body">Your reply</label>
+      <textarea
+        id="body"
+        name="body"
+        rows="6"
+        placeholder="Share your thoughts, tips, or resources…"
+        maxlength="2000"
+        required
+      ><%= (values && values.body) ? values.body : '' %></textarea>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Post Reply</button>
+    </div>
+    <p class="form-note">Please follow the <a href="/guidelines">Community Guidelines</a> when posting.</p>
+  </form>
+</section>
+
+<%- include('partials/footer') %>

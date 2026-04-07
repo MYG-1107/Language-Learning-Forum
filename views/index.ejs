@@ -1,0 +1,82 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <h1>Welcome to the Language Learning Forum</h1>
+  <p class="hero-subtitle">
+    A community-driven space to discuss languages, share resources, and connect with fellow learners worldwide.
+  </p>
+  <div class="hero-actions">
+    <a href="/threads/new" class="btn btn-primary">Start a Discussion</a>
+    <a href="/categories" class="btn btn-secondary">Browse Categories</a>
+  </div>
+</section>
+
+<div class="home-grid">
+  <!-- Recent Discussions -->
+  <section class="card-section">
+    <h2 class="section-heading">Recent Discussions</h2>
+    <% if (recentThreads.length === 0) { %>
+      <p class="empty-state">No discussions yet. <a href="/threads/new">Be the first to post!</a></p>
+    <% } else { %>
+      <ul class="thread-list">
+        <% recentThreads.forEach(function(thread) { %>
+          <li class="thread-item">
+            <div class="thread-meta">
+              <% const cat = categories.find(c => c.id === thread.categoryId); %>
+              <% if (cat) { %>
+                <a href="/categories/<%= cat.id %>" class="tag" style="background-color: <%= cat.color %>22; color: <%= cat.color %>; border-color: <%= cat.color %>44;">
+                  <%= cat.flag %> <%= cat.name %>
+                </a>
+              <% } %>
+              <span class="thread-date"><%= thread.date %></span>
+            </div>
+            <a href="/threads/<%= thread.id %>" class="thread-title"><%= thread.title %></a>
+            <p class="thread-excerpt"><%= thread.body.substring(0, 140) %>…</p>
+            <div class="thread-footer">
+              <span class="thread-author">by <%= thread.author %></span>
+              <span class="reply-count"><%= thread.replies.length %> <%= thread.replies.length === 1 ? 'reply' : 'replies' %></span>
+            </div>
+          </li>
+        <% }); %>
+      </ul>
+      <a href="/threads" class="view-all-link">View all discussions →</a>
+    <% } %>
+  </section>
+
+  <!-- Category Highlights -->
+  <section class="card-section">
+    <h2 class="section-heading">Browse by Language</h2>
+    <ul class="category-grid-mini">
+      <% categories.forEach(function(cat) { %>
+        <li>
+          <a href="/categories/<%= cat.id %>" class="category-card-mini" style="border-left-color: <%= cat.color %>;">
+            <span class="cat-flag"><%= cat.flag %></span>
+            <span class="cat-info">
+              <strong><%= cat.name %></strong>
+              <small><%= cat.threadCount %> threads</small>
+            </span>
+          </a>
+        </li>
+      <% }); %>
+    </ul>
+    <a href="/categories" class="view-all-link">All categories →</a>
+  </section>
+</div>
+
+<!-- Quick links -->
+<section class="quick-links-bar">
+  <a href="/resources" class="quick-link">
+    <span class="ql-icon">📚</span>
+    <span>Learning Resources</span>
+  </a>
+  <a href="/guidelines" class="quick-link">
+    <span class="ql-icon">📋</span>
+    <span>Community Guidelines</span>
+  </a>
+  <a href="/threads/new" class="quick-link">
+    <span class="ql-icon">✏️</span>
+    <span>Start a Discussion</span>
+  </a>
+</section>
+
+<%- include('partials/footer') %>

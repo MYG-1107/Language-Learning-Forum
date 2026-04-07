@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="/">Home</a> / Learning Resources</div>
+  <h1>Learning Resources</h1>
+  <p>Curated, properly attributed resources for language learners — dictionaries, courses, literary archives, and more.</p>
+</div>
+
+<!-- Category Filter -->
+<form class="filter-bar" method="GET" action="/resources">
+  <label for="category-filter">Filter by language:</label>
+  <select id="category-filter" name="category" onchange="this.form.submit()">
+    <option value="">All Languages</option>
+    <% categories.forEach(function(cat) { %>
+      <option value="<%= cat.id %>" <%= selectedCategory === cat.id ? 'selected' : '' %>>
+        <%= cat.flag %> <%= cat.name %>
+      </option>
+    <% }); %>
+  </select>
+  <% if (selectedCategory) { %>
+    <a href="/resources" class="btn btn-sm btn-outline">Clear filter</a>
+  <% } %>
+</form>
+
+<% if (resources.length === 0) { %>
+  <div class="empty-state-card">
+    <p>No resources found for this category.</p>
+    <a href="/resources" class="btn btn-outline">View all resources</a>
+  </div>
+<% } else { %>
+  <ul class="resource-list">
+    <% resources.forEach(function(res) { %>
+      <% const cat = categories.find(c => c.id === res.categoryId); %>
+      <li class="resource-card">
+        <div class="resource-header">
+          <div>
+            <h3 class="resource-title">
+              <a href="<%= res.url %>" target="_blank" rel="noopener noreferrer"><%= res.title %> ↗</a>
+            </h3>
+            <div class="resource-meta">
+              <% if (cat) { %>
+                <a href="/categories/<%= cat.id %>" class="tag" style="background-color: <%= cat.color %>22; color: <%= cat.color %>; border-color: <%= cat.color %>44;">
+                  <%= cat.flag %> <%= cat.name %>
+                </a>
+              <% } %>
+              <span class="resource-type"><%= res.type %></span>
+            </div>
+          </div>
+        </div>
+        <p class="resource-description"><%= res.description %></p>
+        <p class="resource-attribution">
+          <strong>Source:</strong> <%= res.attribution %>
+        </p>
+      </li>
+    <% }); %>
+  </ul>
+<% } %>
+
+<%- include('partials/footer') %>

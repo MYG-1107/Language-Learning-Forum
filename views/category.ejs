@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<div class="page-header" style="border-left: 4px solid <%= category.color %>; padding-left: 1rem;">
+  <div class="breadcrumb"><a href="/categories">Categories</a> / <%= category.flag %> <%= category.name %></div>
+  <h1><%= category.flag %> <%= category.name %> Discussions</h1>
+  <p><%= category.description %></p>
+  <div class="page-header-actions">
+    <a href="/threads/new" class="btn btn-primary">Start a Discussion</a>
+    <a href="/resources?category=<%= category.id %>" class="btn btn-outline">View Resources</a>
+  </div>
+</div>
+
+<% if (threads.length === 0) { %>
+  <div class="empty-state-card">
+    <p>No discussions in this category yet.</p>
+    <a href="/threads/new" class="btn btn-primary">Start the first discussion</a>
+  </div>
+<% } else { %>
+  <ul class="thread-list thread-list--full">
+    <% threads.forEach(function(thread) { %>
+      <li class="thread-item">
+        <div class="thread-meta">
+          <span class="thread-date"><%= thread.date %></span>
+        </div>
+        <a href="/threads/<%= thread.id %>" class="thread-title"><%= thread.title %></a>
+        <p class="thread-excerpt"><%= thread.body.substring(0, 200) %>…</p>
+        <div class="thread-footer">
+          <span class="thread-author">by <%= thread.author %></span>
+          <span class="reply-count"><%= thread.replies.length %> <%= thread.replies.length === 1 ? 'reply' : 'replies' %></span>
+        </div>
+      </li>
+    <% }); %>
+  </ul>
+<% } %>
+
+<%- include('partials/footer') %>

@@ -18,7 +18,7 @@ let threads = [
       {
         id: 'r1',
         author: 'NordicNative',
-        body: 'Start with Bokmål — it is used by around 85–90 % of Norwegians and almost all mainstream media. Nynorsk is mainly used in western Norway and is taught in schools as a secondary standard. Once you have a solid Bokmål base you will find Nynorsk much easier to pick up.',
+        body: 'Start with Bokmål — it is used by around 85–90% of Norwegians and almost all mainstream media. Nynorsk is mainly used in western Norway and is taught in schools as a secondary standard. Once you have a solid Bokmål base you will find Nynorsk much easier to pick up.',
         date: '2025-03-16',
       },
       {
